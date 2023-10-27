@@ -1,63 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "list.h"
-const int count  = 10;
 
-struct elem_list {
-    int value;
-    int prev;
-    int next;
-};
-
-struct list_struct {
-    elem_list data[count];
-    int head;
-    int tale;
-    int free;
-};
-void partion(FILE * pfile) {
-    fprintf(pfile, "\n           ");
-    for (int i = 0; i < count - 1; i++) {
-        fprintf(pfile, "|_____");
-    }
-    return;
-}
-void dump_list (list_struct * list, FILE * pfile) {
-    fprintf(pfile, "index: ");
-    for (int i = 0; i < count; i++) {
-        fprintf(pfile, "%.3d_|_", i);
-    }
-
-
-    partion(pfile);
-
-
-    fprintf(pfile, "\ndata: ");
-    for (int i = 0; i < count; i++) {
-        fprintf(pfile, " %.3d |", (list->data[i]).value);
-    }
-
-    partion(pfile);
-
-    fprintf(pfile, "\nnext: ");
-    for (int i = 0; i < count; i++) {
-        fprintf(pfile, " %.3d |", (list->data[i]).next);
-    }
-
-    partion(pfile);
-
-    fprintf(pfile, "\n rev: ");
-    for (int i = 0; i < count; i++) {
-        fprintf(pfile, " %.3d |", (list->data[i]).prev);
-    }
-    partion(pfile);
-
-
-    fprintf(pfile, "\n\nhead: [%.3d]\n", list->head);
-    fprintf(pfile, "tale: [%.3d]\n", list->tale);
-    fprintf(pfile, "free: [%.3d]\n", list->free);
-
-}
 
 int main(void) {
     FILE * pfile = fopen("log_file.txt", "wb");
@@ -72,5 +16,68 @@ int main(void) {
     list.tale = 98;
     list.free = 78;
     dump_list(&list, pfile);
+
+}
+
+
+
+
+
+
+
+
+
+
+void open(FILE * pfile) {
+    fprintf(pfile, "\n     ");
+    for (int i = 0; i < count; i++) {
+        fprintf(pfile, "______");
+    }
+    fprintf(pfile, "\n");
+    return;
+}
+void close(FILE * pfile) {
+    fprintf(pfile, "\n     ");
+
+    for (int i = 0; i < count; i++) {
+        fprintf(pfile, "|_____");
+    }
+    fprintf(pfile, "|");
+    return;
+}
+void dump_list (list_struct * list, FILE * pfile) {
+    open(pfile);
+    fprintf(pfile, "  ip:| ");
+    for (int i = 0; i < count; i++) {
+        fprintf(pfile, "%.3d | ", i);
+    }
+    close(pfile);
+
+
+
+    fprintf(pfile, "\ndata:|");
+    for (int i = 0; i < count; i++) {
+        fprintf(pfile, " %.3d |", (list->data[i]).value);
+    }
+
+    close(pfile);
+
+    fprintf(pfile, "\nnext:|");
+    for (int i = 0; i < count; i++) {
+        fprintf(pfile, " %.3d |", (list->data[i]).next);
+    }
+
+    close(pfile);
+
+    fprintf(pfile, "\nprev:|");
+    for (int i = 0; i < count; i++) {
+        fprintf(pfile, " %.3d |", (list->data[i]).prev);
+    }
+    close(pfile);
+
+
+    fprintf(pfile, "\n\nhead: [%.3d]\n", list->head);
+    fprintf(pfile, "tale: [%.3d]\n", list->tale);
+    fprintf(pfile, "free: [%.3d]\n", list->free);
 
 }
