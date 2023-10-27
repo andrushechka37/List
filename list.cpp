@@ -1,20 +1,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "list.h"
-
-
+int list_push(list_struct * list, int value) {
+    list->data[list->tale].prev = list->tale - 1;
+    list->data[list->tale - 1].next = list->tale;
+    list->data[list->tale].value = value;
+    list->data[list->tale].next = 998;
+    list->tale++;
+}
 int main(void) {
     FILE * pfile = fopen("log_file.txt", "wb");
     list_struct list = {};
     list.data[0].value = 999;
-    for (int i = 1; i < 10; i++) {
-        list.data[i].value = i;
-        list.data[i].next = i + 1;
-        list.data[i].prev = i - 1;
-    }
-    list.head = 5;
-    list.tale = 98;
-    list.free = 78;
+    // for (int i = 1; i < 10; i++) {
+    //     list.data[i].value = i;
+    //     list.data[i].next = i + 1;
+    //     list.data[i].prev = i - 1;
+    // }
+    // list.head = 5;
+    list.tale = 1;
+    // list.free = 78;
+    list_push(&list, 7);
+    list_push(&list, 90);
+    
+
     dump_list(&list, pfile);
 
 }
