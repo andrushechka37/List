@@ -1,10 +1,58 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "list.h"
+        // fprintf(pfile, "\t%d [shape=record,label=\" ip: %d | data: %d| next: %d| prev: %d\" ];\n",
+        //                                  i, i, list->data[i].value, list->data[i].next, list->data[i].prev);
+void draw_grath(list_struct * list) {
+    FILE * pfile = fopen("grath.dot", "wb");
+    fprintf(pfile, "digraph structs {\n");
+    fprintf(pfile, "\trankdir=LR;\n");
+    fprintf(pfile, "\tgraph [bgcolor=\"#bac2c0\"]\n");
+    fprintf(pfile, "\tnode[color=\"#b02f15\",fontsize=14];\n");
+    fprintf(pfile, "\tedge[color=\"darkgreen\",fontcolor=\"blue\",fontsize=12];\n\n\n");
+
+    for (int i = 0; i < count; i++) {
+        fprintf(pfile, "\t%d [shape=record,label=\" ip: %d ", i, i);
+        fprintf(pfile, "| data: %d", list->data[i].value);
+        fprintf(pfile, "| next: %d", list->data[i].next);
+        if (list->data[i].prev == free_elem) {
+            fprintf(pfile, "| prev: fre\" ];\n");
+        } else {
+            fprintf(pfile, "| prev: %d\" ];\n", list->data[i].prev);
+        }
+    }
+    fprintf(pfile, "\n\t");
+    for (int i = 0; i < count - 1; i++) {
+        fprintf(pfile, "%d->", i);
+    }
+    fprintf(pfile, "%d[weight = 10000, color = \"#bac2c0\"];\n", count - 1);
 
 
-int give_free_cell (list_struct * list) {
-    if (list->data[list->free].next != poizon) {
+    for(int i = 0; i < count - 1; i++) {
+        fprintf(pfile, "\t%d->%d[color = \"darkgreen\"];\n", i, list->data[i].next);
+    }
+    for (int i = 0; i < count; i++) {
+        if (list->data[i].prev != free_elem) {
+            fprintf(pfile, "\t %d -> %d[color = \"red\"];\n", i, list->data[i].prev);
+        }
+    }
+
+    fprintf(pfile, "\th [shape=record,label=\"HEAD\" ];\n");
+    fprintf(pfile, "\tt [shape=record,label=\"TALE\" ];\n");
+    fprintf(pfile, "\tf [shape=record,label=\"FREE\" ];\n");
+    fprintf(pfile, "\th->%d[color = \"black\"];\n", list->head);
+    fprintf(pfile, "\tt->%d[color = \"black\"];\n", list->tale);
+    fprintf(pfile, "\tf->%d[color = \"black\"];\n", list->free);
+    fprintf(pfile, "\n}");
+
+
+    //system(" dot -Tpng /Users/anzhiday/Documents/list/grath.dot  -o /Users/anzhiday/Documents/list/grath/file.png");
+
+    
+    
+}
+int get_free_cell (list_struct * list) {
+    if (list->data[list->free].next != 0) {
         int pos = list->free;
         list->free = list->data[list->free].next; 
         return pos;
@@ -20,40 +68,40 @@ void free_cell(list_struct * list, int position) {
     list->free = position;
 }
 
-void full_poison(list_struct * list, int position) {
-    list->data[position].prev  = poizon;
-    list->data[position].value = poizon;
-    list->data[position].next  = poizon;
-}
+// void full_poison(list_struct * list, int position) {
+//     list->data[position].prev  = poizon;
+//     list->data[position].value = poizon;
+//     list->data[position].next  = poizon;
+// }
 void list_elem_put(list_struct * list, int position, int value) {   // may be copipast, think more
     if (position == list->tale && position != 0) {
-        list->tale = give_free_cell(list);                          // move tale  
+        list->tale = get_free_cell(list);                          // move tale  
         list->data[position].next = list->tale;                     // prev elem next is current
 
         list->data[list->tale].prev  = position; 
         list->data[list->tale].value = value;
-        list->data[list->tale].next  = poizon;
+        //list->data[list->tale].next  = poizon;
     } else if (position != 0) {
-        int cur = list->data[position].next = give_free_cell(list);  // current is first free     
+        int cur = list->data[position].next = get_free_cell(list);  // current is first free     
         list->data[cur].prev = position;                
         list->data[cur].value = value;
         list->data[cur].next = list->data[position].next;
         list->data[position].next = cur;
     } else {
-        int cur = give_free_cell(list);
+        int cur = get_free_cell(list);
         list->data[cur].prev = 0;                
         list->data[cur].value = value;
-        list->data[cur].next = poizon;
+        //list->data[cur].next = poizon;
     }
 }
 void list_elem_del(list_struct * list, int position) { // add adding a free cell
     if (position == list->tale) {
         list->tale = list->data[position].prev;
-        list->data[list->tale].next = poizon;
+        //list->data[list->tale].next = poizon;
         free_cell(list, position);
     } else if (position == list->head) {
         list->head = list->data[position].next;
-        list->data[list->head].prev = poizon;
+        //list->data[list->head].prev = poizon;
         free_cell(list, position);
     } else {
         list->data[list->data[position].prev].next = list->data[position].next; // next of prev elem = next of cur elem
@@ -72,8 +120,8 @@ void list_Ctor(list_struct * list) {
         list->data[i].prev = free_elem;
         list->data[i].next = i + 1;
     }
-    list->data[count - 1].next = poizon;
-    full_poison(list, 0);
+    // list->data[count - 1].next = poizon;
+    // full_poison(list, 0);
     list->head = 0;
     list->tale = 0;
     list->free = 1;
@@ -86,6 +134,7 @@ int main(void) {
     list_elem_put(&list, 1, 6);
     list_elem_put(&list, 2, 7);
     list_elem_put(&list, 3, 58);
+    draw_grath(&list);
     
     dump_list(&list, pfile);
     list_elem_del(&list, 3);
@@ -142,31 +191,21 @@ void dump_list (list_struct * list, FILE * pfile) {
 
     fprintf(pfile, "\ndata:|");
     for (int i = 0; i < count; i++) {
-        if ((list->data[i]).value == poizon) {
-            fprintf(pfile, " pzn |");
-        } else {
-            fprintf(pfile, " %.3d |", (list->data[i]).value);
-        }
+        fprintf(pfile, " %.3d |", (list->data[i]).value);
     }
 
     close(pfile);
 
     fprintf(pfile, "\nnext:|");
     for (int i = 0; i < count; i++) {
-        if ((list->data[i]).next == poizon) {
-            fprintf(pfile, " pzn |");
-        } else {
-            fprintf(pfile, " %.3d |", (list->data[i]).next);
-        }
+        fprintf(pfile, " %.3d |", (list->data[i]).next);
     }
 
     close(pfile);
 
     fprintf(pfile, "\nprev:|");
     for (int i = 0; i < count; i++) {
-        if ((list->data[i]).prev == poizon) {
-            fprintf(pfile, " pzn |");
-        } else if((list->data[i]).prev == free_elem) {
+        if((list->data[i]).prev == free_elem) {
             fprintf(pfile, " fre |");
         } else {
             fprintf(pfile, " %.3d |", (list->data[i]).prev);

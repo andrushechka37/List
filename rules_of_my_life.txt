@@ -1,0 +1,39 @@
+
+-------git-----------------
+10. think about names of commits
+13. do not commit generated files
+14. do not commit junk, check before commitimg
+
+------naming------------
+2. naming(imperative, compare (imperative), use verbs in imperative)
+3. naming style
+15. use verbs in naming
+
+-------code style-----------
+1. .PHONY with capital letters
+5. array[ip] is more readable than *(array + ip)
+11. DO NOT COMMENT CODE
+16. use spaces to separate funcs from each other
+12. do not use "magic numbers, especially in array initialization
+6. CHECK indentation
+
+---------headers-----------------
+
+
+4. use headers, header for each file
+17 do not add extra funcs to header, make another header or static functions
+7. use static functions
+
+
+
+
+------------general----------------------------
+8. make universal functions
+9. make better make files, they dont work properly
+
+
+
+
+
+
+

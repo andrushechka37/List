@@ -1,7 +1,6 @@
 
 const int count  = 13;
-int const poizon      = -1;
-int const free_elem   =  8;
+int const free_elem   =  -1;
 struct elem_list {
     int value;
     int prev;
