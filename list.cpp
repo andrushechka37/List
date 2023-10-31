@@ -1,48 +1,58 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "list.h"
-        // fprintf(pfile, "\t%d [shape=record,label=\" ip: %d | data: %d| next: %d| prev: %d\" ];\n",
-        //                                  i, i, list->data[i].value, list->data[i].next, list->data[i].prev);
+ // letters to grath commit
+ // different comours for free
+ // shapes
 void draw_grath(list_struct * list) {
     FILE * pfile = fopen("grath.dot", "wb");
     fprintf(pfile, "digraph structs {\n");
     fprintf(pfile, "\trankdir=LR;\n");
-    fprintf(pfile, "\tgraph [bgcolor=\"#bac2c0\"]\n");
-    fprintf(pfile, "\tnode[color=\"#b02f15\",fontsize=14];\n");
+    fprintf(pfile, "\tgraph [bgcolor=\"#31353b\"]\n");
+    fprintf(pfile, "\tnode[color=\"black\",fontsize=14];\n");
     fprintf(pfile, "\tedge[color=\"darkgreen\",fontcolor=\"blue\",fontsize=12];\n\n\n");
 
     for (int i = 0; i < count; i++) {
-        fprintf(pfile, "\t%d [shape=record,label=\" ip: %d ", i, i);
+        fprintf(pfile, "\t%d [shape=Mrecord,style=filled, fillcolor=\"#7293ba\", label=\" ip: %d ", i, i);
         fprintf(pfile, "| data: %d", list->data[i].value);
         fprintf(pfile, "| next: %d", list->data[i].next);
         if (list->data[i].prev == free_elem) {
-            fprintf(pfile, "| prev: fre\" ];\n");
+            fprintf(pfile, "| prev: fre\" ");
         } else {
-            fprintf(pfile, "| prev: %d\" ];\n", list->data[i].prev);
+            fprintf(pfile, "| prev: %d\" ", list->data[i].prev);
+        }
+        if (list->data[i].prev == free_elem) {
+             fprintf(pfile, ", color = lightgreen];\n");
+        } else {
+            fprintf(pfile, "];\n");
         }
     }
     fprintf(pfile, "\n\t");
     for (int i = 0; i < count - 1; i++) {
         fprintf(pfile, "%d->", i);
     }
-    fprintf(pfile, "%d[weight = 10000, color = \"#bac2c0\"];\n", count - 1);
+    fprintf(pfile, "%d[weight = 10000, color = \"#31353b\"];\n", count - 1);
 
 
     for(int i = 0; i < count - 1; i++) {
-        fprintf(pfile, "\t%d->%d[color = \"darkgreen\"];\n", i, list->data[i].next);
+        if (list->data[i].prev == free_elem) {
+            fprintf(pfile, "\t%d->%d[color = \"#22f230\"];\n", i, list->data[i].next);
+        } else {
+            fprintf(pfile, "\t%d->%d[color = \"#0ae7ff\"];\n", i, list->data[i].next);
+        }
     }
     for (int i = 0; i < count; i++) {
         if (list->data[i].prev != free_elem) {
-            fprintf(pfile, "\t %d -> %d[color = \"red\"];\n", i, list->data[i].prev);
+            fprintf(pfile, "\t %d -> %d[color = \"#ff0a0a\"];\n", i, list->data[i].prev);
         }
     }
 
-    fprintf(pfile, "\th [shape=record,label=\"HEAD\" ];\n");
-    fprintf(pfile, "\tt [shape=record,label=\"TALE\" ];\n");
-    fprintf(pfile, "\tf [shape=record,label=\"FREE\" ];\n");
-    fprintf(pfile, "\th->%d[color = \"black\"];\n", list->head);
-    fprintf(pfile, "\tt->%d[color = \"black\"];\n", list->tale);
-    fprintf(pfile, "\tf->%d[color = \"black\"];\n", list->free);
+    fprintf(pfile, "\th [shape=tripleoctagon,label=\"HEAD\", color = \"yellow\", fillcolor=\"#7293ba\",style=filled  ];\n");
+    fprintf(pfile, "\tt [shape=tripleoctagon,label=\"TALE\", color = \"yellow\", fillcolor=\"#7293ba\",style=filled ];\n");
+    fprintf(pfile, "\tf [shape=tripleoctagon,label=\"FREE\", color = \"yellow\", fillcolor=\"#7293ba\",style=filled ];\n");
+    fprintf(pfile, "\th->%d[color = \"orange\"];\n", list->head);
+    fprintf(pfile, "\tt->%d[color = \"orange\"];\n", list->tale);
+    fprintf(pfile, "\tf->%d[color = \"orange\"];\n", list->free);
     fprintf(pfile, "\n}");
 
 
@@ -134,6 +144,8 @@ int main(void) {
     list_elem_put(&list, 1, 6);
     list_elem_put(&list, 2, 7);
     list_elem_put(&list, 3, 58);
+    list.head = 2;
+    list_elem_del(&list, 3);
     draw_grath(&list);
     
     dump_list(&list, pfile);
