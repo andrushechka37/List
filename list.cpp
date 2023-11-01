@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "list.h"
  // letters to grath commit
  // different comours for free
  // shapes
+char count_gr[] = "1";
 void draw_grath(list_struct * list) {
     FILE * pfile = fopen("grath.dot", "wb");
     fprintf(pfile, "digraph structs {\n");
@@ -54,9 +56,17 @@ void draw_grath(list_struct * list) {
     fprintf(pfile, "\tt->%d[color = \"orange\"];\n", list->tale);
     fprintf(pfile, "\tf->%d[color = \"orange\"];\n", list->free);
     fprintf(pfile, "\n}");
+    fclose(pfile);
 
 
-    //system(" dot -Tpng /Users/anzhiday/Documents/list/grath.dot  -o /Users/anzhiday/Documents/list/grath/file.png");
+    char command1[1000] = "dot -Tpng /Users/anzhiday/Documents/list/grath.dot  -o /Users/anzhiday/Documents/list/grapths/grath";
+    char command2[] = ".png";
+    strcat(command1, count_gr);
+    strcat(command1, command2);
+    system(command1);
+    snprintf(count_gr, 2,  "%d", (1 + atoi(count_gr)));
+
+
 
     
     
@@ -145,7 +155,9 @@ int main(void) {
     list_elem_put(&list, 2, 7);
     list_elem_put(&list, 3, 58);
     list.head = 2;
+    draw_grath(&list);
     list_elem_del(&list, 3);
+    draw_grath(&list);
     draw_grath(&list);
     
     dump_list(&list, pfile);
