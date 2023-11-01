@@ -6,13 +6,15 @@
  // different comours for free
  // shapes
 char count_gr[] = "1";
-void draw_grath(list_struct * list) {
+void draw_grath(list_struct * list, const char * func) {
     FILE * pfile = fopen("grath.dot", "wb");
     fprintf(pfile, "digraph structs {\n");
     fprintf(pfile, "\trankdir=LR;\n");
     fprintf(pfile, "\tgraph [bgcolor=\"#31353b\"]\n");
     fprintf(pfile, "\tnode[color=\"black\",fontsize=14];\n");
     fprintf(pfile, "\tedge[color=\"darkgreen\",fontcolor=\"blue\",fontsize=12];\n\n\n");
+
+    fprintf(pfile, "\t50 [shape=note,style=filled, fillcolor=\"#fdf39b\", label=\" was called from %s\", fontcolor = \"black\", fontsize = 20];\n", func);
 
     for (int i = 0; i < count; i++) {
         fprintf(pfile, "\t%d [shape=Mrecord,style=filled, fillcolor=\"#7293ba\", label=\" ip: %d ", i, i);
@@ -52,6 +54,7 @@ void draw_grath(list_struct * list) {
     fprintf(pfile, "\th [shape=tripleoctagon,label=\"HEAD\", color = \"yellow\", fillcolor=\"#7293ba\",style=filled  ];\n");
     fprintf(pfile, "\tt [shape=tripleoctagon,label=\"TALE\", color = \"yellow\", fillcolor=\"#7293ba\",style=filled ];\n");
     fprintf(pfile, "\tf [shape=tripleoctagon,label=\"FREE\", color = \"yellow\", fillcolor=\"#7293ba\",style=filled ];\n");
+    fprintf(pfile, "h->t->f[weight = 10000, color = \"#31353b\"];\n");
     fprintf(pfile, "\th->%d[color = \"orange\"];\n", list->head);
     fprintf(pfile, "\tt->%d[color = \"orange\"];\n", list->tale);
     fprintf(pfile, "\tf->%d[color = \"orange\"];\n", list->free);
@@ -155,10 +158,10 @@ int main(void) {
     list_elem_put(&list, 2, 7);
     list_elem_put(&list, 3, 58);
     list.head = 2;
-    draw_grath(&list);
+    draw_grath(&list, __func__);
     list_elem_del(&list, 3);
-    draw_grath(&list);
-    draw_grath(&list);
+    draw_grath(&list, __func__);
+    draw_grath(&list, __func__);
     
     dump_list(&list, pfile);
     list_elem_del(&list, 3);

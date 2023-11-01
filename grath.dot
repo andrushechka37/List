@@ -5,6 +5,7 @@ digraph structs {
 	edge[color="darkgreen",fontcolor="blue",fontsize=12];
 
 
+	50 [shape=note,style=filled, fillcolor="#fdf39b", label=" was called from main", fontcolor = "black", fontsize = 20];
 	0 [shape=Mrecord,style=filled, fillcolor="#7293ba", label=" ip: 0 | data: 0| next: 0| prev: 0" ];
 	1 [shape=Mrecord,style=filled, fillcolor="#7293ba", label=" ip: 1 | data: 5| next: 2| prev: 0" ];
 	2 [shape=Mrecord,style=filled, fillcolor="#7293ba", label=" ip: 2 | data: 6| next: 4| prev: 1" ];
@@ -39,6 +40,7 @@ digraph structs {
 	h [shape=tripleoctagon,label="HEAD", color = "yellow", fillcolor="#7293ba",style=filled  ];
 	t [shape=tripleoctagon,label="TALE", color = "yellow", fillcolor="#7293ba",style=filled ];
 	f [shape=tripleoctagon,label="FREE", color = "yellow", fillcolor="#7293ba",style=filled ];
+h->t->f[weight = 10000, color = "#31353b"];
 	h->2[color = "orange"];
 	t->0[color = "orange"];
 	f->3[color = "orange"];
