@@ -4,3 +4,6 @@ list.dSYM
 a.out
 *.o
 .DS_Store
+grath.dot
+log_file.txt
+rules_of_my_life.txt

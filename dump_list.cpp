@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "list.h"
+#include "list.h"      // question: i want make header for each cpp but i have const that needed in two cpps
+
 char count_gr[] = "1";
+
 void open(FILE * pfile) {
     fprintf(pfile, "\n     ");
     for (int i = 0; i < count; i++) {
@@ -113,17 +115,21 @@ void draw_grath(list_struct * list, const char * func) {
     }
     fprintf(pfile, "%d[weight = 10000, color = \"#31353b\"];\n", count - 1);
 
-
+////////////////////////////
     for(int i = 0; i < count - 1; i++) {
-        if (list->data[i].prev == free_elem) {
+        if (list->data[i].prev == free_elem) {     // draw next line
             fprintf(pfile, "\t%d->%d[color = \"#22f230\"];\n", i, list->data[i].next);
+        } else if (list->data[i].next == 0) {
+            fprintf(pfile, "\t%d->%d[color = \"#8139bd\"];\n", i, list->data[i].next);
         } else {
             fprintf(pfile, "\t%d->%d[color = \"#0ae7ff\"];\n", i, list->data[i].next);
         }
     }
     for (int i = 0; i < count; i++) {
-        if (list->data[i].prev != free_elem) {
+        if (list->data[i].prev != free_elem && list->data[i].prev != list->tale) {   // draw prev line
             fprintf(pfile, "\t%d -> %d[color = \"#ff0a0a\"];\n", i, list->data[i].prev);
+        } else if (list->data[i].prev == list->tale) {
+            fprintf(pfile, "\t%d -> %d[color = \"#8139bd\"];\n", i, list->data[i].prev);
         }
     }
 
