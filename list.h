@@ -18,3 +18,9 @@ struct list_struct {
 void open(FILE * pfile);
 void close(FILE * pfile);
 void dump_list (list_struct * list, FILE * pfile);
+
+void create_new_grapth(void);
+void draw_grath(list_struct * list, const char * func);
+
+int get_free_cell (list_struct * list);
+void free_cell(list_struct * list, int position);

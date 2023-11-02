@@ -1,3 +1,6 @@
 list
 .vscode
 list.dSYM
+a.out
+*.o
+.DS_Store
