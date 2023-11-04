@@ -76,6 +76,7 @@ void list_elem_del(list_struct * list, int position) {
 }
 
 void list_Ctor(list_struct * list) {
+    list->data = (elem_list *) calloc(count, sizeof(elem_list));
     for (int i = 1; i < count; i++) {
         list->data[i].prev = free_elem;
         list->data[i].next = i + 1;
@@ -92,6 +93,7 @@ void list_Dtor(list_struct * list) {
         list->data[i].value = 0; 
         list->data[i].next  = 0; 
     }
+    free(list->data);
 }
 
 static int free_cell_num(list_struct * list) {

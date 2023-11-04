@@ -161,4 +161,3 @@ void draw_grath(list_struct * list, const char * func) {
     create_new_grapth();   
 }
 
-

@@ -9,7 +9,7 @@ struct elem_list {
 };
 
 struct list_struct {
-    elem_list data[count];
+    elem_list * data;
     int head;
     int tale;
     int free;
@@ -25,8 +25,6 @@ void list_Dtor(list_struct * list);
 
 
 
-
-
 //(optional)
 
 // delete time files
@@ -37,11 +35,7 @@ void list_Dtor(list_struct * list);
 // list tests
 
 
-// inline const
-// extern 
-// header
 // remove tale and header
-// free work with dinamic memory // rename dree_cell
 
 
 // commands
@@ -54,11 +48,7 @@ void list_Dtor(list_struct * list);
 // необязательные дапмы
 
 // git sixe of list
-// dinamic 
 // clear
 // resize
 // swap(only pointers
 // reverse
-// readme
-// Document
-// tests
