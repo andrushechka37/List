@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include "list.h"
 
-static int free_cell_num (list_struct * list);
-static void free_cell(list_struct * list, int position);
+static int get_free_cell (list_struct * list);
+static void add_free_cell(list_struct * list, int position);
 
-void verificator(list_struct * list) {
+int verificator(list_struct * list) {
     bool error = 0;
     for (int i = 0; i < count; i++) {
         if (list->data[list->data[i].prev].next != i && list->data[i].prev != free_elem) {
@@ -19,41 +19,37 @@ void verificator(list_struct * list) {
         }
     }
 
-    // if(list->data == NULL) {                               
-    //     printf("data zero ptr");
-    //     error = 1;        
-    // } 
+    if(list->data == NULL) {                               
+        printf("data zero ptr");
+        error = 1;        
+    } 
 
-    if(list->free < 0) {// another check                      // make on defines  
+    if(list->free < 0) { 
         printf("free below zero");
         error = 1;       
     } 
 
-    if(list->head < 0) {                          
-        printf("head below zero");
-        error = 1;        
+    if(list->free < count) { 
+        printf("free is out of range");
+        error = 1;       
     } 
+    
 
-    if(list->tale < 0) {                          
-        printf("tale below zero");
-        error = 1;        
-    } 
+    
 
 
 
     if (error == 1) {
         exit(-1);
     }
+    
+    return 0;
 }
 
 
-static void move_borders_of_list(list_struct * list) {
-    list->head = list->data[0].next;
-    list->tale = list->data[0].prev;
-}
 
-void list_elem_put(list_struct * list, int position, int value) {
-    int cur = free_cell_num(list);
+int list_insert_after(list_struct * list, int position, int value) {
+    int cur = get_free_cell(list);
 
     list->data[list->data[position].next].prev = cur;      // prev of the next elem is current
 
@@ -61,42 +57,42 @@ void list_elem_put(list_struct * list, int position, int value) {
     list->data[cur].value = value;
     list->data[cur].next = list->data[position].next;
 
-    list->data[position].next = cur;         // prev elem next is current
+    list->data[position].next = cur;
+    return 0;         // prev elem next is current
 
-    move_borders_of_list(list);
 }
 
-void list_elem_del(list_struct * list, int position) {
+int list_elem_del(list_struct * list, int position) {
     list->data[list->data[position].prev].next = list->data[position].next; // next of prev elem = next of cur elem
     list->data[list->data[position].next].prev = list->data[position].prev; // prev of next elem = prev of cur elem
 
-    free_cell(list, position);
+    add_free_cell(list, position);
+    return 0;
 
-    move_borders_of_list(list);
 }
 
-void list_Ctor(list_struct * list) {
+int list_Ctor(list_struct * list) {
     list->data = (elem_list *) calloc(count, sizeof(elem_list));
     for (int i = 1; i < count; i++) {
         list->data[i].prev = free_elem;
         list->data[i].next = i + 1;
     }
 
-    list->head = 0;
-    list->tale = 0;
     list->free = 1;
+    return 0;
 }
 
-void list_Dtor(list_struct * list) {
+int list_Dtor(list_struct * list) {
     for(int i = 0; i < count; i++) {
         list->data[i].prev  = 0; 
         list->data[i].value = 0; 
         list->data[i].next  = 0; 
     }
     free(list->data);
+    return 0;
 }
 
-static int free_cell_num(list_struct * list) {
+static int get_free_cell(list_struct * list) {
     if (list->data[list->free].next != 0) {
         int pos = list->free;
         list->free = list->data[list->free].next; 
@@ -107,9 +103,43 @@ static int free_cell_num(list_struct * list) {
     }
 }
 
-static void free_cell(list_struct * list, int position) {
+static void add_free_cell(list_struct * list, int position) {
     list->data[position].prev = free_elem;
     list->data[position].value = 0;
     list->data[position].next  = list->free;
     list->free = position;
+}
+
+int swap(list_struct * list, int position1, int position2) {  // in work
+    int next = list->data[position1].next;
+    int prev = list->data[position1].prev;
+
+    int prev_elem1 = list->data[position1].prev;
+    int prev_elem2 = list->data[position2].prev;
+
+    int next_elem1 = list->data[position1].next;
+    int next_elem2 = list->data[position2].next;
+
+    list->data[prev_elem1].next = position2;
+    list->data[prev_elem2].next = position1;
+    list->data[next_elem1].prev = position2;
+    list->data[next_elem2].prev = position1;
+
+    if (next_elem1 == position2) {
+        list->data[position1].next = next_elem2;
+        list->data[position2].prev = prev_elem1;
+        list->data[position1].prev = position2;
+        list->data[position2].next = position1;
+
+
+    } else {
+        list->data[position1].next = list->data[position2].next;
+        list->data[position1].prev = list->data[position2].prev;
+        list->data[position2].next = next;
+        list->data[position2].prev = prev;
+    }
+
+
+    return 0;
+
 }

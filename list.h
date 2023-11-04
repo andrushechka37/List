@@ -1,5 +1,6 @@
 #pragma once
-const int count       = 13;
+
+const int count       =  13;
 const int free_elem   =  -1;
 
 struct elem_list {
@@ -10,18 +11,20 @@ struct elem_list {
 
 struct list_struct {
     elem_list * data;
-    int head;
-    int tale;
     int free;
 };
 
-void verificator(list_struct * list); 
+int verificator(list_struct * list); 
 
-void list_elem_put(list_struct * list, int position, int value);
-void list_elem_del(list_struct * list, int position);
+int list_insert_after(list_struct * list, int position, int value);
+int list_elem_del(list_struct * list, int position);
 
-void list_Ctor(list_struct * list);
-void list_Dtor(list_struct * list);
+int swap(list_struct * list, int position1, int position2);
+
+int list_Ctor(list_struct * list);
+int list_Dtor(list_struct * list);
+
+
 
 
 
@@ -34,8 +37,7 @@ void list_Dtor(list_struct * list);
 // aspell
 // list tests
 
-
-// remove tale and header
+// reallock
 
 
 // commands

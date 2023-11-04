@@ -1,0 +1,22 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/anzhiday/Documents/list/list_test'
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x10000360C, symSize: 0x148 }
+  - { offsetInCU: 0x7F, offset: 0x7F, size: 0x8, addend: 0x0, symName: _count_gr, symObjAddr: 0x48E7, symBinAddr: 0x10000C000, symSize: 0x0 }
+  - { offsetInCU: 0xC7, offset: 0xC7, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x10000360C, symSize: 0x148 }
+  - { offsetInCU: 0xFD, offset: 0xFD, size: 0x8, addend: 0x0, symName: __Z9list_CtorP11list_struct, symObjAddr: 0x148, symBinAddr: 0x100003754, symSize: 0xB4 }
+  - { offsetInCU: 0x145, offset: 0x145, size: 0x8, addend: 0x0, symName: __Z13list_elem_putP11list_structii, symObjAddr: 0x1FC, symBinAddr: 0x100003808, symSize: 0xE8 }
+  - { offsetInCU: 0x19B, offset: 0x19B, size: 0x8, addend: 0x0, symName: __Z10draw_grathP11list_structPKc, symObjAddr: 0x2E4, symBinAddr: 0x1000038F0, symSize: 0x640 }
+  - { offsetInCU: 0x257, offset: 0x257, size: 0x8, addend: 0x0, symName: __Z4swapP11list_structii, symObjAddr: 0x924, symBinAddr: 0x100003F30, symSize: 0x2C0 }
+  - { offsetInCU: 0x2F3, offset: 0x2F3, size: 0x8, addend: 0x0, symName: __Z13list_elem_delP11list_structi, symObjAddr: 0xBE4, symBinAddr: 0x1000041F0, symSize: 0xBC }
+  - { offsetInCU: 0x32D, offset: 0x32D, size: 0x8, addend: 0x0, symName: __Z9dump_listP11list_structP7__sFILE, symObjAddr: 0xCA0, symBinAddr: 0x1000042AC, symSize: 0x2D4 }
+  - { offsetInCU: 0x3D3, offset: 0x3D3, size: 0x8, addend: 0x0, symName: __Z11verificatorP11list_struct, symObjAddr: 0xF74, symBinAddr: 0x100004580, symSize: 0x29C }
+  - { offsetInCU: 0x429, offset: 0x429, size: 0x8, addend: 0x0, symName: __Z9list_DtorP11list_struct, symObjAddr: 0x1210, symBinAddr: 0x10000481C, symSize: 0xA8 }
+  - { offsetInCU: 0x471, offset: 0x471, size: 0x8, addend: 0x0, symName: __ZL13get_free_cellP11list_struct, symObjAddr: 0x12B8, symBinAddr: 0x1000048C4, symSize: 0x98 }
+  - { offsetInCU: 0x4B9, offset: 0x4B9, size: 0x8, addend: 0x0, symName: __ZL13add_free_cellP11list_structi, symObjAddr: 0x1350, symBinAddr: 0x10000495C, symSize: 0x78 }
+  - { offsetInCU: 0x4EF, offset: 0x4EF, size: 0x8, addend: 0x0, symName: __Z19grapth_presentationv, symObjAddr: 0x13C8, symBinAddr: 0x1000049D4, symSize: 0x14C }
+  - { offsetInCU: 0x56C, offset: 0x56C, size: 0x8, addend: 0x0, symName: __Z14list_cell_openP7__sFILE, symObjAddr: 0x1514, symBinAddr: 0x100004B20, symSize: 0x7C }
+  - { offsetInCU: 0x5B0, offset: 0x5B0, size: 0x8, addend: 0x0, symName: __Z15list_cell_closeP7__sFILE, symObjAddr: 0x1590, symBinAddr: 0x100004B9C, symSize: 0x13C }
+  - { offsetInCU: 0x62C, offset: 0x62C, size: 0x8, addend: 0x0, symName: __Z17create_new_grapthv, symObjAddr: 0x16CC, symBinAddr: 0x100004CD8, symSize: 0xE8 }
+...

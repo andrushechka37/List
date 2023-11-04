@@ -6,7 +6,7 @@
 
 
 void grapth_presentation(void) {
-    char command[10000] = "open /opt/local/bin/sxiv ";
+    char command[command_len] = "open /opt/local/bin/sxiv ";
     char file[] = " /Users/anzhiday/Documents/list/grapths/grath";
     int counter = atoi(count_gr);
     for (int i = 1; i < counter; i++) {
@@ -19,7 +19,7 @@ void grapth_presentation(void) {
     system(command);
 }
 
-void open(FILE * pfile) {
+void list_cell_open(FILE * pfile) {
     fprintf(pfile, "\n     ");
     for (int i = 0; i < count; i++) {
         fprintf(pfile, "______");
@@ -27,7 +27,8 @@ void open(FILE * pfile) {
     fprintf(pfile, "\n");
     return;
 }
-void close(FILE * pfile) {
+
+void list_cell_close(FILE * pfile) {
     fprintf(pfile, "\n     ");
 
     for (int i = 0; i < count; i++) {
@@ -46,14 +47,15 @@ void close(FILE * pfile) {
     fprintf(pfile, "|");
     return;
 }
+
 void dump_list (list_struct * list, FILE * pfile) {
     fprintf(pfile, "\n\n     --------------------------next dump--------------------------\n\n");
-    open(pfile);
+    list_cell_open(pfile);
     fprintf(pfile, "  ip:| ");
     for (int i = 0; i < count; i++) {
         fprintf(pfile, "%.3d | ", i);
     }
-    close(pfile);
+    list_cell_close(pfile);
 
 
 
@@ -62,14 +64,14 @@ void dump_list (list_struct * list, FILE * pfile) {
         fprintf(pfile, " %.3d |", (list->data[i]).value);
     }
 
-    close(pfile);
+    list_cell_close(pfile);
 
     fprintf(pfile, "\nnext:|");
     for (int i = 0; i < count; i++) {
         fprintf(pfile, " %.3d |", (list->data[i]).next);
     }
 
-    close(pfile);
+    list_cell_close(pfile);
 
     fprintf(pfile, "\nprev:|");
     for (int i = 0; i < count; i++) {
@@ -79,11 +81,11 @@ void dump_list (list_struct * list, FILE * pfile) {
             fprintf(pfile, " %.3d |", (list->data[i]).prev);
         }
     }
-    close(pfile);
+    list_cell_close(pfile);
 
 
-    fprintf(pfile, "\n\nhead: [%.3d]\n", list->head);
-    fprintf(pfile, "tale: [%.3d]\n", list->tale);
+    fprintf(pfile, "\n\nhead: [%.3d]\n", list->data[0].next);
+    fprintf(pfile, "tale: [%.3d]\n", list->data[0].prev);
     fprintf(pfile, "free: [%.3d]\n", list->free);
 
 }
@@ -98,7 +100,7 @@ void create_new_grapth(void) {
 }
 
 
-void draw_grath(list_struct * list, const char * func) {
+void draw_grapth(list_struct * list, const char * func) {
     FILE * pfile = fopen("grath.dot", "wb");
     fprintf(pfile, "digraph structs {\n");
     fprintf(pfile, "\trankdir=LR;\n");
@@ -129,7 +131,7 @@ void draw_grath(list_struct * list, const char * func) {
     }
     fprintf(pfile, "%d[weight = 100, color = \"invis\"];\n", count - 1);
 
-////////////////////////////
+
     for(int i = 0; i < count - 1; i++) {
         if (list->data[i].prev == free_elem) {     // draw next line
             fprintf(pfile, "\t%d->%d[color = \"#22f230\", constraint=false];\n", i, list->data[i].next);
@@ -140,9 +142,9 @@ void draw_grath(list_struct * list, const char * func) {
         }
     }
     for (int i = 0; i < count; i++) {
-        if (list->data[i].prev != free_elem && list->data[i].prev != list->tale) {   // draw prev line
+        if (list->data[i].prev != free_elem && list->data[i].prev != list->data[0].prev) {   // draw prev line
             fprintf(pfile, "\t%d -> %d[color = \"#ff0a0a\", constraint=false];\n", i, list->data[i].prev);
-        } else if (list->data[i].prev == list->tale) {
+        } else if (list->data[i].prev == list->data[0].prev) {
             fprintf(pfile, "\t%d -> %d[color = \"#8139bd\", constraint=false];\n", i, list->data[i].prev);
         }
     }
@@ -150,9 +152,8 @@ void draw_grath(list_struct * list, const char * func) {
     fprintf(pfile, "\th [shape=tripleoctagon,label=\"HEAD\", color = \"yellow\", fillcolor=\"#7293ba\",style=filled  ];\n");
     fprintf(pfile, "\tt [shape=tripleoctagon,label=\"TALE\", color = \"yellow\", fillcolor=\"#7293ba\",style=filled ];\n");
     fprintf(pfile, "\tf [shape=tripleoctagon,label=\"FREE\", color = \"yellow\", fillcolor=\"#7293ba\",style=filled ];\n");
-    //fprintf(pfile, "\th->t->f[weight = 10000, color = \"#31353b\"];\n");
-    fprintf(pfile, "\th->%d[color = \"orange\", constraint=false];\n", list->head);
-    fprintf(pfile, "\tt->%d[color = \"orange\", constraint=false];\n", list->tale);
+    fprintf(pfile, "\th->%d[color = \"orange\", constraint=false];\n", list->data[0].next);
+    fprintf(pfile, "\tt->%d[color = \"orange\", constraint=false];\n", list->data[0].prev);
     fprintf(pfile, "\tf->%d[color = \"orange\", constraint=false];\n", list->free);
     fprintf(pfile, "\n}");
     fclose(pfile);
