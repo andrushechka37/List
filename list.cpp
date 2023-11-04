@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "list.h"
 #include "dump_list.h"
+#include <math.h>
 
 static int get_free_cell (list_struct * list);
 static void add_free_cell(list_struct * list, int position);
@@ -30,8 +31,8 @@ int verificator(list_struct * list) {
         error = 1;       
     } 
 
-    if(list->free < count) { 
-        printf("free is out of range");
+    if(list->free > count) { 
+        printf("free is out of range    %d    \n", list->free);
         error = 1;       
     } 
 
@@ -108,27 +109,80 @@ static void add_free_cell(list_struct * list, int position) {
 }
 
 int swap(list_struct * list, int position1, int position2) {  // in work
+
+    if((list->data[position1].prev == free_elem && list->data[position2].prev == free_elem) || position1 == 0 || position2 == 0) {
+        return 0;
+    }
+    if (list->data[position1].prev == free_elem) {
+        list->data[list->data[position2].prev].next = position1;
+        list->data[list->data[position2].next].prev = position1;
+
+        list->data[position1].prev = list->data[position2].prev;
+        list->data[position1].value = list->data[position2].value;
+
+        int k = list->data[position1].next;
+
+        list->data[position1].next = list->data[position2].next;
+
+        list->data[position2].prev = free_elem;
+        list->data[position2].value = 0;
+        list->data[position2].next = k;
+
+        if(list->free == position1) {
+            list->free = position2;
+        }
+        return 0;
+    }
+
+    if (list->data[position2].prev == free_elem) {
+        list->data[list->data[position1].prev].next = position2;
+        list->data[list->data[position1].next].prev = position2;
+
+        list->data[position2].prev = list->data[position1].prev;
+        list->data[position2].value = list->data[position1].value;
+
+        int k = list->data[position2].next;
+
+        list->data[position2].next = list->data[position1].next;
+
+        list->data[position1].prev = free_elem;
+        list->data[position1].value = 0;
+        list->data[position1].next = k;
+
+        if(list->free == position2) {
+            list->free = position1;
+        }
+        return 0;
+    }
     int next = list->data[position1].next;
     int prev = list->data[position1].prev;
-
     int prev_elem1 = list->data[position1].prev;
     int prev_elem2 = list->data[position2].prev;
 
     int next_elem1 = list->data[position1].next;
     int next_elem2 = list->data[position2].next;
-
     list->data[prev_elem1].next = position2;
     list->data[prev_elem2].next = position1;
     list->data[next_elem1].prev = position2;
     list->data[next_elem2].prev = position1;
 
-    if (next_elem1 == position2) {
-        list->data[position1].next = next_elem2;
-        list->data[position2].prev = prev_elem1;
-        list->data[position1].prev = position2;
-        list->data[position2].next = position1;
 
 
+
+
+    if (abs((position1 - position2)) == 1) {  // 1 2
+        if (next_elem1 == position2) {
+            list->data[position1].next = next_elem2;
+            list->data[position2].prev = prev_elem1;
+            list->data[position1].prev = position2;
+            list->data[position2].next = position1;
+        } else {
+            list->data[position1].next = position2;  // 2 1
+            list->data[position1].prev = prev_elem2;
+            printf("fjn");
+            list->data[position2].prev = position1;
+            list->data[position2].next = next_elem1;
+        }
     } else {
         list->data[position1].next = list->data[position2].next;
         list->data[position1].prev = list->data[position2].prev;
@@ -139,4 +193,16 @@ int swap(list_struct * list, int position1, int position2) {  // in work
 
     return 0;
 
+}
+
+void linearization(list_struct * list) {
+    int count = 1;
+    for (int i = 0; i < 10; i++) { 
+        if (list->data[i].next != count) {
+            //draw_grapth(list, "list");
+            printf("%d\n\n\n\n", count);
+            swap(list, count, list->data[i].next);
+        }
+        count++;
+    }
 }

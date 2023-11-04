@@ -16,25 +16,28 @@ int main(void) {
     list_insert_after(&list, 2, 7);
     list_insert_after(&list, 3, 58);
 
-    draw_grapth(&list, "list");
-    //swap(&list, 2, 1);
+    swap(&list, 6, 2);
     draw_grapth(&list, "swap");
+    swap(&list, 6, 2);
+    draw_grapth(&list, "delete third position");
+
 
     list_elem_del(&list, 3);
 
-    draw_grapth(&list, "delete third position");
 
     list_insert_after(&list, 4, 73);
 
-    draw_grapth(&list, "add after 4 position");
 
     list_elem_del(&list, 1);
 
     draw_grapth(&list, "delete first");
+
+    linearization(&list);
+    draw_grapth(&list, "linearization");
     
     dump_list(&list, pfile);
-    verificator(&list);
-    //grapth_presentation();
+    //verificator(&list);
+    grapth_presentation();
 
     list_Dtor(&list);
 

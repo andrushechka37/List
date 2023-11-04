@@ -21,6 +21,8 @@ int list_elem_del(list_struct * list, int position);
 
 int swap(list_struct * list, int position1, int position2);
 
+void linearization(list_struct * list);
+
 int list_Ctor(list_struct * list);
 int list_Dtor(list_struct * list);
 

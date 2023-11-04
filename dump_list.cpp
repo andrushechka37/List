@@ -152,6 +152,7 @@ void draw_grapth(list_struct * list, const char * func) {
     fprintf(pfile, "\th [shape=tripleoctagon,label=\"HEAD\", color = \"yellow\", fillcolor=\"#7293ba\",style=filled  ];\n");
     fprintf(pfile, "\tt [shape=tripleoctagon,label=\"TALE\", color = \"yellow\", fillcolor=\"#7293ba\",style=filled ];\n");
     fprintf(pfile, "\tf [shape=tripleoctagon,label=\"FREE\", color = \"yellow\", fillcolor=\"#7293ba\",style=filled ];\n");
+    fprintf(pfile, "\th->t->f[weight = 100, color = \"invis\"];\n");
     fprintf(pfile, "\th->%d[color = \"orange\", constraint=false];\n", list->data[0].next);
     fprintf(pfile, "\tt->%d[color = \"orange\", constraint=false];\n", list->data[0].prev);
     fprintf(pfile, "\tf->%d[color = \"orange\", constraint=false];\n", list->free);
