@@ -17,7 +17,7 @@ int main(void) {
     list_insert_after(&list, 3, 58);
 
     draw_grapth(&list, "list");
-    swap(&list, 2, 1);
+    //swap(&list, 2, 1);
     draw_grapth(&list, "swap");
 
     list_elem_del(&list, 3);
@@ -32,7 +32,6 @@ int main(void) {
 
     draw_grapth(&list, "delete first");
     
-    dump_list(&list, pfile);
     dump_list(&list, pfile);
     verificator(&list);
     //grapth_presentation();

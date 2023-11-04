@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "list.h"
+#include "dump_list.h"
 
 static int get_free_cell (list_struct * list);
 static void add_free_cell(list_struct * list, int position);
@@ -33,16 +34,12 @@ int verificator(list_struct * list) {
         printf("free is out of range");
         error = 1;       
     } 
-    
-
-    
-
-
 
     if (error == 1) {
+        draw_grapth(list, "error, check console output");
         exit(-1);
     }
-    
+
     return 0;
 }
 
