@@ -1,9 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "list.h"      // question: i want make header for each cpp but i have const that needed in two cpps
+#include "dump_list.h"  
 
-char count_gr[] = "1";
+
+
+void grapth_presentation(void) {
+    char command[10000] = "open /opt/local/bin/sxiv ";
+    char file[] = " /Users/anzhiday/Documents/list/grapths/grath";
+    int counter = atoi(count_gr);
+    for (int i = 1; i < counter; i++) {
+        char number[6] = "";
+        snprintf(number, 6,  "%d.png", i);
+        strcat(command, file);
+        strcat(command, number);
+    }
+    printf("%s", command);
+    system(command);
+}
 
 void open(FILE * pfile) {
     fprintf(pfile, "\n     ");
@@ -92,7 +106,7 @@ void draw_grath(list_struct * list, const char * func) {
     fprintf(pfile, "\tnode[color=\"black\",fontsize=14];\n");
     fprintf(pfile, "\tedge[color=\"darkgreen\",fontcolor=\"blue\",fontsize=12];\n\n\n");
 
-    fprintf(pfile, "\t50 [shape=note,style=filled, fillcolor=\"#fdf39b\", label=\" was called from %s\", fontcolor = \"black\", fontsize = 20];\n", func);
+    fprintf(pfile, "\t50 [shape=note,style=filled, fillcolor=\"#fdf39b\", label=\"%s\", fontcolor = \"black\", fontsize = 20];\n", func);
 
     for (int i = 0; i < count; i++) {
         fprintf(pfile, "\t%d [shape=Mrecord,style=filled, fillcolor=\"#7293ba\", label=\" ip: %d ", i, i);
@@ -113,33 +127,33 @@ void draw_grath(list_struct * list, const char * func) {
     for (int i = 0; i < count - 1; i++) {
         fprintf(pfile, "%d->", i);
     }
-    fprintf(pfile, "%d[weight = 10000, color = \"#31353b\"];\n", count - 1);
+    fprintf(pfile, "%d[weight = 100, color = \"invis\"];\n", count - 1);
 
 ////////////////////////////
     for(int i = 0; i < count - 1; i++) {
         if (list->data[i].prev == free_elem) {     // draw next line
-            fprintf(pfile, "\t%d->%d[color = \"#22f230\"];\n", i, list->data[i].next);
+            fprintf(pfile, "\t%d->%d[color = \"#22f230\", constraint=false];\n", i, list->data[i].next);
         } else if (list->data[i].next == 0) {
-            fprintf(pfile, "\t%d->%d[color = \"#8139bd\"];\n", i, list->data[i].next);
+            fprintf(pfile, "\t%d->%d[color = \"#8139bd\", constraint=false];\n", i, list->data[i].next);
         } else {
-            fprintf(pfile, "\t%d->%d[color = \"#0ae7ff\"];\n", i, list->data[i].next);
+            fprintf(pfile, "\t%d->%d[color = \"#0ae7ff\", constraint=false];\n", i, list->data[i].next);
         }
     }
     for (int i = 0; i < count; i++) {
         if (list->data[i].prev != free_elem && list->data[i].prev != list->tale) {   // draw prev line
-            fprintf(pfile, "\t%d -> %d[color = \"#ff0a0a\"];\n", i, list->data[i].prev);
+            fprintf(pfile, "\t%d -> %d[color = \"#ff0a0a\", constraint=false];\n", i, list->data[i].prev);
         } else if (list->data[i].prev == list->tale) {
-            fprintf(pfile, "\t%d -> %d[color = \"#8139bd\"];\n", i, list->data[i].prev);
+            fprintf(pfile, "\t%d -> %d[color = \"#8139bd\", constraint=false];\n", i, list->data[i].prev);
         }
     }
 
     fprintf(pfile, "\th [shape=tripleoctagon,label=\"HEAD\", color = \"yellow\", fillcolor=\"#7293ba\",style=filled  ];\n");
     fprintf(pfile, "\tt [shape=tripleoctagon,label=\"TALE\", color = \"yellow\", fillcolor=\"#7293ba\",style=filled ];\n");
     fprintf(pfile, "\tf [shape=tripleoctagon,label=\"FREE\", color = \"yellow\", fillcolor=\"#7293ba\",style=filled ];\n");
-    fprintf(pfile, "\th->t->f[weight = 10000, color = \"#31353b\"];\n");
-    fprintf(pfile, "\th->%d[color = \"orange\"];\n", list->head);
-    fprintf(pfile, "\tt->%d[color = \"orange\"];\n", list->tale);
-    fprintf(pfile, "\tf->%d[color = \"orange\"];\n", list->free);
+    //fprintf(pfile, "\th->t->f[weight = 10000, color = \"#31353b\"];\n");
+    fprintf(pfile, "\th->%d[color = \"orange\", constraint=false];\n", list->head);
+    fprintf(pfile, "\tt->%d[color = \"orange\", constraint=false];\n", list->tale);
+    fprintf(pfile, "\tf->%d[color = \"orange\", constraint=false];\n", list->free);
     fprintf(pfile, "\n}");
     fclose(pfile);
 

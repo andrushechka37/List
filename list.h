@@ -1,6 +1,7 @@
-
+#pragma once
 const int count       = 13;
 const int free_elem   =  -1;
+
 struct elem_list {
     int value;
     int prev;
@@ -14,19 +15,50 @@ struct list_struct {
     int free;
 };
 
-
-void open(FILE * pfile);
-void close(FILE * pfile);
-void dump_list (list_struct * list, FILE * pfile);
-
-void create_new_grapth(void);
-void draw_grath(list_struct * list, const char * func);
-
-int free_cell_num (list_struct * list);
-void free_cell(list_struct * list, int position);
+void verificator(list_struct * list); 
 
 void list_elem_put(list_struct * list, int position, int value);
 void list_elem_del(list_struct * list, int position);
 
 void list_Ctor(list_struct * list);
 void list_Dtor(list_struct * list);
+
+
+
+
+
+//(optional)
+
+// delete time files
+// /tmp tmnum how to create time files
+// delete time files
+// /tmp tmnum how to create time files
+// aspell
+// list tests
+
+
+// inline const
+// extern 
+// header
+// remove tale and header
+// free work with dinamic memory // rename dree_cell
+
+
+// commands
+
+// list insert after
+// revove exit 
+// linearization
+// логические и физичиёеские адреса
+// pop back pop front swap 
+// необязательные дапмы
+
+// git sixe of list
+// dinamic 
+// clear
+// resize
+// swap(only pointers
+// reverse
+// readme
+// Document
+// tests
