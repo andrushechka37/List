@@ -48,7 +48,7 @@ void list_cell_close(FILE * pfile) {
     return;
 }
 
-void dump_list (list_struct * list, FILE * pfile) {
+void dump_list (doubly_linked_list * list, FILE * pfile) {
     fprintf(pfile, "\n\n     --------------------------next dump--------------------------\n\n");
     list_cell_open(pfile);
     fprintf(pfile, "  ip:| ");
@@ -86,7 +86,7 @@ void dump_list (list_struct * list, FILE * pfile) {
 
     fprintf(pfile, "\n\nhead: [%.3d]\n", list->data[0].next);
     fprintf(pfile, "tale: [%.3d]\n", list->data[0].prev);
-    fprintf(pfile, "free: [%.3d]\n", list->free);
+    fprintf(pfile, "free: [%.3d]\n", list->free_element_head);
 
 }
 
@@ -100,7 +100,7 @@ void create_new_grapth(void) {
 }
 
 
-void draw_grapth(list_struct * list, const char * func) {
+void draw_grapth(doubly_linked_list * list, const char * func) {
     FILE * pfile = fopen("grath.dot", "wb");
     fprintf(pfile, "digraph structs {\n");
     fprintf(pfile, "\trankdir=LR;\n");
@@ -155,7 +155,7 @@ void draw_grapth(list_struct * list, const char * func) {
     fprintf(pfile, "\th->t->f[weight = 100, color = \"invis\"];\n");
     fprintf(pfile, "\th->%d[color = \"orange\", constraint=false];\n", list->data[0].next);
     fprintf(pfile, "\tt->%d[color = \"orange\", constraint=false];\n", list->data[0].prev);
-    fprintf(pfile, "\tf->%d[color = \"orange\", constraint=false];\n", list->free);
+    fprintf(pfile, "\tf->%d[color = \"orange\", constraint=false];\n", list->free_element_head);
     fprintf(pfile, "\n}");
     fclose(pfile);
 

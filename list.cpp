@@ -4,11 +4,10 @@
 #include "dump_list.h"
 #include <math.h>
 
-static int get_vacant_cell (list_struct * list);
-static void add_vacant_cell(list_struct * list, int position);
+static int get_vacant_cell (doubly_linked_list * list);
+static void add_vacant_cell(doubly_linked_list * list, int position);
 
-// TODO: bool?
-int verificator(list_struct * list) {
+bool verify_list(doubly_linked_list * list) {
     bool error = 0;
     for (int i = 0; i < count; i++) {
         if (list->data[list->data[i].prev].next != i && list->data[i].prev != free_elem) {
@@ -22,18 +21,18 @@ int verificator(list_struct * list) {
         }
     }
 
-    if(list->data == NULL) {                               
+    if(list->data == NULL) {  
         printf("data zero ptr");
         error = 1;        // TODO: too much trailing ^ spaces, they annoy me
     } 
 
-    if(list->free < 0) { 
+    if(list->free_element_head < 0) { 
         printf("free below zero");
         error = 1;       
     } 
 
-    if(list->free > count) { 
-        printf("free is out of range    %d    \n", list->free);
+    if(list->free_element_head > count) { 
+        printf("free is out of range    %d    \n", list->free_element_head);
         error = 1;       
     } 
 
@@ -47,7 +46,7 @@ int verificator(list_struct * list) {
 
 
 
-int list_insert_after(list_struct * list, int position, int value) {
+int list_insert_after(doubly_linked_list * list, int position, int value) {
     int cur = get_vacant_cell(list);
 
     list->data[list->data[position].next].prev = cur;      // prev of the next elem is current
@@ -61,7 +60,7 @@ int list_insert_after(list_struct * list, int position, int value) {
 
 }
 
-int list_elem_del(list_struct * list, int position) {
+int list_elem_del(doubly_linked_list * list, int position) {
     // TODO: check if element is free
     list->data[list->data[position].prev].next = list->data[position].next; // next of prev elem = next of cur elem
     list->data[list->data[position].next].prev = list->data[position].prev; // prev of next elem = prev of cur elem
@@ -71,18 +70,18 @@ int list_elem_del(list_struct * list, int position) {
 
 }
 
-int list_Ctor(list_struct * list) {
-    list->data = (elem_list *) calloc(count, sizeof(elem_list));
+int list_ctor(doubly_linked_list * list) {
+    list->data = (list_element *) calloc(count, sizeof(list_element));
     for (int i = 1; i < count; i++) {
         list->data[i].prev = free_elem;
         list->data[i].next = i + 1;
     }
 
-    list->free = 1;
+    list->free_element_head = 1;
     return 0;
 }
 
-int list_Dtor(list_struct * list) {
+int list_dtor(doubly_linked_list * list) {
     for(int i = 0; i < count; i++) {
         list->data[i].prev  = 0; 
         list->data[i].value = 0; 
@@ -92,10 +91,10 @@ int list_Dtor(list_struct * list) {
     return 0;
 }
 
-static int get_vacant_cell(list_struct * list) {
-    if (list->data[list->free].next != 0) {
-        int pos = list->free;
-        list->free = list->data[list->free].next; 
+static int get_vacant_cell(doubly_linked_list * list) {
+    if (list->data[list->free_element_head].next != 0) {
+        int pos = list->free_element_head;
+        list->free_element_head = list->data[list->free_element_head].next; 
         return pos;
     } else {
         printf("no more free space");
@@ -103,15 +102,15 @@ static int get_vacant_cell(list_struct * list) {
     }
 }
 
-static void add_vacant_cell(list_struct * list, int position) {
+static void add_vacant_cell(doubly_linked_list * list, int position) {
     list->data[position].prev = free_elem;
     list->data[position].value = 0;
-    list->data[position].next  = list->free;
-    list->free = position;
+    list->data[position].next  = list->free_element_head;
+    list->free_element_head = position;
 }
 
 // TODO: I'm gonna pretend I didn't see this
-int swap(list_struct * list, int position1, int position2) {  // in work
+int list_swap(doubly_linked_list * list, int position1, int position2) {  // in work
 
     if((list->data[position1].prev == free_elem && list->data[position2].prev == free_elem) || position1 == 0 || position2 == 0) {
         return 0;
@@ -131,8 +130,8 @@ int swap(list_struct * list, int position1, int position2) {  // in work
         list->data[position2].value = 0;
         list->data[position2].next = k;
 
-        if(list->free == position1) {
-            list->free = position2;
+        if(list->free_element_head == position1) {
+            list->free_element_head = position2;
         }
         return 0;
     }
@@ -152,8 +151,8 @@ int swap(list_struct * list, int position1, int position2) {  // in work
         list->data[position1].value = 0;
         list->data[position1].next = k;
 
-        if(list->free == position2) {
-            list->free = position1;
+        if(list->free_element_head == position2) {
+            list->free_element_head = position1;
         }
         return 0;
     }
@@ -198,13 +197,13 @@ int swap(list_struct * list, int position1, int position2) {  // in work
 
 }
 
-void linearization(list_struct * list) {
+void list_linearization(doubly_linked_list * list) {
     int count = 1;
-    for (int i = 0; i < 10; i++) {  // TODO: 10????????????????
+    for (int i = 0; i < 13; i++) {  // TODO: 10????????????????
         if (list->data[i].next != count) {
             //draw_grapth(list, "list");
             printf("%d\n\n\n\n", count);
-            swap(list, count, list->data[i].next);
+            list_swap(list, count, list->data[i].next);
         }
         count++;
     }

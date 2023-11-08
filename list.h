@@ -1,35 +1,34 @@
 #pragma once
 
-const int count       =  13; // TODO: What is 13? Why is this const here?
-
+const int count = 13; // this const uses not only in tests think more!!!!!!!!!!!!!
 const int free_elem   =  -1;
 
-struct elem_list { // TODO: why _list? It's not a list, it's a single element!
-    int value; // TODO: can I change list element type? What if I want to?
+struct list_element {
+    int value; // TODO: can I change list element type? What if I want to? - NO :(
     int prev;
     int next;
 };
 
-struct list_struct { // TODO: list_STRUCT? Why STRUCT? If you want to write struct so much, write it like struct list as language suggests
-    elem_list * data;
-    int free; // TODO: just free? free_list_head?
+struct doubly_linked_list {
+    list_element * data;
+    int free_element_head;
 };
 
 /// @brief Verificator of list
 /// @param list struct 
 /// @return 0 if there is no issues in list
-int verificator(list_struct * list);  // TODO: verbs? verify? Also, there are no markers that show that it's a list verifier, not for arbitrary data, but specifically for lists
+bool verify_list(doubly_linked_list * list);
 
 /// @brief inserts after the element of list
 /// @param list list struct
 /// @param position after that position insertion
 /// @param value value has been inserted
-int list_insert_after(list_struct * list, int position, int value);
+int list_insert_after(doubly_linked_list * list, int position, int value);
 
 /// @brief delete element of list
 /// @param list list struct
 /// @param position position of deleted element
-int list_elem_del(list_struct * list, int position);
+int list_elem_del(doubly_linked_list * list, int position);
 
 
 /// @brief swaps two argument in given posotions
@@ -37,16 +36,16 @@ int list_elem_del(list_struct * list, int position);
 /// @param position1 first position
 /// @param position2 second position
 /// @note there are a lot of ifs, should be rewrited
-int swap(list_struct * list, int position1, int position2); // TODO: list_?
+int list_swap(doubly_linked_list * list, int position1, int position2);
 
 /// @brief leads to correspondence of physical and logical adresses of list elements
 /// @param list list struct
-void linearization(list_struct * list); // TODO: list_?
+void list_linearization(doubly_linked_list * list); 
 
 
 
-int list_Ctor(list_struct * list); // TODO: capital letter here? naming style
-int list_Dtor(list_struct * list);
+int list_ctor(doubly_linked_list * list);
+int list_dtor(doubly_linked_list * list);
 
 
 
