@@ -1,6 +1,6 @@
 # List
 ## This is a list created on array of structures.
-It is a very useful prorgamm that can help you to store integers in right order. List has a lot of functions to work with it.
+It is a very useful program that can help you to store integers in right order. List has a lot of functions to work with it.
 * insert after element
 * delete element
 * swap between elements of list
@@ -9,7 +9,7 @@ It is a very useful prorgamm that can help you to store integers in right order.
 
 Also list has two variations of dump:
 * text dump
-* graphyz dump united in slides of presentation
+* graphviz dump united in slides of presentation
 
 ## Usage example 
 
@@ -47,4 +47,4 @@ If you found an issue or would like to submit an improvement to this project, pl
 
 
 # Donation
-### :exclamation: :exclamation: send me money om my phone number :exclamation: :exclamation:
+### :exclamation: :exclamation: send me money on my phone number :exclamation: :exclamation:
