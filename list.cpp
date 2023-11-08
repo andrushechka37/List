@@ -7,23 +7,24 @@
 static int get_vacant_cell (list_struct * list);
 static void add_vacant_cell(list_struct * list, int position);
 
+// TODO: bool?
 int verificator(list_struct * list) {
     bool error = 0;
     for (int i = 0; i < count; i++) {
         if (list->data[list->data[i].prev].next != i && list->data[i].prev != free_elem) {
             printf("%d %d", list->data[list->data[i].prev].next, i);
             printf("next of previous elem is %d element is %d", list->data[list->data[i].prev].next, i);
-            error = 1;
+            error = 1; // TODO: true?
         }
         if (list->data[list->data[i].next].prev != i && list->data[i].prev != free_elem) {
             printf("previous of next element is %d element is %d", list->data[list->data[i].next].prev, i);
-            error = 1;
+            error = 1; // TODO: true?
         }
     }
 
     if(list->data == NULL) {                               
         printf("data zero ptr");
-        error = 1;        
+        error = 1;        // TODO: too much trailing ^ spaces, they annoy me
     } 
 
     if(list->free < 0) { 
@@ -38,7 +39,7 @@ int verificator(list_struct * list) {
 
     if (error == 1) {
         draw_grapth(list, "error, check console output");
-        exit(-1);
+        exit(-1); // TODO: ????????????????????????????????????????????????????????????????????????
     }
 
     return 0;
@@ -61,6 +62,7 @@ int list_insert_after(list_struct * list, int position, int value) {
 }
 
 int list_elem_del(list_struct * list, int position) {
+    // TODO: check if element is free
     list->data[list->data[position].prev].next = list->data[position].next; // next of prev elem = next of cur elem
     list->data[list->data[position].next].prev = list->data[position].prev; // prev of next elem = prev of cur elem
 
@@ -97,7 +99,7 @@ static int get_vacant_cell(list_struct * list) {
         return pos;
     } else {
         printf("no more free space");
-        exit(-1);
+        exit(-1); // TODO: ?????????????????????????????????????????
     }
 }
 
@@ -108,6 +110,7 @@ static void add_vacant_cell(list_struct * list, int position) {
     list->free = position;
 }
 
+// TODO: I'm gonna pretend I didn't see this
 int swap(list_struct * list, int position1, int position2) {  // in work
 
     if((list->data[position1].prev == free_elem && list->data[position2].prev == free_elem) || position1 == 0 || position2 == 0) {
@@ -197,7 +200,7 @@ int swap(list_struct * list, int position1, int position2) {  // in work
 
 void linearization(list_struct * list) {
     int count = 1;
-    for (int i = 0; i < 10; i++) { 
+    for (int i = 0; i < 10; i++) {  // TODO: 10????????????????
         if (list->data[i].next != count) {
             //draw_grapth(list, "list");
             printf("%d\n\n\n\n", count);

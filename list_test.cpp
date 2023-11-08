@@ -19,8 +19,8 @@ int main(void) {
 
     swap(&list, 6, 2);
     draw_grapth(&list, "swap");
-    swap(&list, 6, 2);
-    draw_grapth(&list, "delete third position");
+    swap(&list, 10, 1);
+    draw_grapth(&list, "funny swap");
 
 
     list_elem_del(&list, 3);
@@ -29,7 +29,7 @@ int main(void) {
     list_insert_after(&list, 4, 73);
 
 
-    list_elem_del(&list, 1);
+    // list_elem_del(&list, 1);
 
     draw_grapth(&list, "delete first");
 
@@ -84,7 +84,7 @@ int verificator(list_struct * list) {
 
     if (error == 1) {
         draw_grapth(list, "error, check console output");
-        exit(-1);
+        exit(-1); // TODO: ???????????????????????????????????????????
     }
 
     return 0;
@@ -143,7 +143,7 @@ static int get_vacant_cell(list_struct * list) {
         return pos;
     } else {
         printf("no more free space");
-        exit(-1);
+        exit(-1); // TODO: ???????????????????????????????????????
     }
 }
 
@@ -256,8 +256,8 @@ void linearization(list_struct * list) {
 
 
 void grapth_presentation(void) {
-    char command[command_len] = "open /opt/local/bin/sxiv ";
-    char file[] = " /Users/anzhiday/Documents/list/grapths/grath";
+    char command[command_len] = "sxiv ";
+    char file[] = " grath";
     int counter = atoi(count_gr);
     for (int i = 1; i < counter; i++) {
         char number[6] = "";
@@ -341,7 +341,7 @@ void dump_list (list_struct * list, FILE * pfile) {
 }
 
 void create_new_grapth(void) {
-    char command1[1000] = "dot -Tpng /Users/anzhiday/Documents/list/grath.dot  -o /Users/anzhiday/Documents/list/grapths/grath";
+    char command1[1000] = "dot -Tpng grath.dot  -o grath";
     char command2[] = ".png";
     strcat(command1, count_gr);
     strcat(command1, command2);
