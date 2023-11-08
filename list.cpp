@@ -4,8 +4,8 @@
 #include "dump_list.h"
 #include <math.h>
 
-static int get_free_cell (list_struct * list);
-static void add_free_cell(list_struct * list, int position);
+static int get_vacant_cell (list_struct * list);
+static void add_vacant_cell(list_struct * list, int position);
 
 int verificator(list_struct * list) {
     bool error = 0;
@@ -47,7 +47,7 @@ int verificator(list_struct * list) {
 
 
 int list_insert_after(list_struct * list, int position, int value) {
-    int cur = get_free_cell(list);
+    int cur = get_vacant_cell(list);
 
     list->data[list->data[position].next].prev = cur;      // prev of the next elem is current
 
@@ -64,7 +64,7 @@ int list_elem_del(list_struct * list, int position) {
     list->data[list->data[position].prev].next = list->data[position].next; // next of prev elem = next of cur elem
     list->data[list->data[position].next].prev = list->data[position].prev; // prev of next elem = prev of cur elem
 
-    add_free_cell(list, position);
+    add_vacant_cell(list, position);
     return 0;
 
 }
@@ -90,7 +90,7 @@ int list_Dtor(list_struct * list) {
     return 0;
 }
 
-static int get_free_cell(list_struct * list) {
+static int get_vacant_cell(list_struct * list) {
     if (list->data[list->free].next != 0) {
         int pos = list->free;
         list->free = list->data[list->free].next; 
@@ -101,7 +101,7 @@ static int get_free_cell(list_struct * list) {
     }
 }
 
-static void add_free_cell(list_struct * list, int position) {
+static void add_vacant_cell(list_struct * list, int position) {
     list->data[position].prev = free_elem;
     list->data[position].value = 0;
     list->data[position].next  = list->free;
