@@ -1,4 +1,4 @@
-# List
+# List(Work in progress so dont read readme)
 ## This is a list created on array of structures.
 It is a very useful program that can help you to store integers in right order. List has a lot of functions to work with it.
 * insert after element

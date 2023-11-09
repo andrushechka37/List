@@ -1,5 +1,11 @@
 #pragma once
 
+#define verify(list)               \
+if (verify_list(&list) != 0) {     \
+    return -1;                     \
+}
+
+
 const int count = 13; // this const uses not only in tests think more!!!!!!!!!!!!!
 const int free_elem   =  -1;
 

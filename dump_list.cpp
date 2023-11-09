@@ -5,7 +5,7 @@
 
 
 
-void grapth_presentation(void) {
+void graph_presentation(void) {
     char command[command_len] = "open /opt/local/bin/sxiv ";
     char file[] = " /Users/anzhiday/Documents/list/grapths/grath";
     int counter = atoi(count_gr);
@@ -90,7 +90,7 @@ void dump_list (doubly_linked_list * list, FILE * pfile) {
 
 }
 
-void create_new_grapth(void) {
+void create_new_graph(void) {
     char command1[1000] = "dot -Tpng /Users/anzhiday/Documents/list/grath.dot  -o /Users/anzhiday/Documents/list/grapths/grath";
     char command2[] = ".png";
     strcat(command1, count_gr);
@@ -100,7 +100,7 @@ void create_new_grapth(void) {
 }
 
 
-void draw_grapth(doubly_linked_list * list, const char * func) {
+void draw_graph(doubly_linked_list * list, const char * func) {
     FILE * pfile = fopen("grath.dot", "wb");
     fprintf(pfile, "digraph structs {\n");
     fprintf(pfile, "\trankdir=LR;\n");
@@ -160,6 +160,6 @@ void draw_grapth(doubly_linked_list * list, const char * func) {
     fclose(pfile);
 
 
-    create_new_grapth();   
+    create_new_graph();   
 }
 

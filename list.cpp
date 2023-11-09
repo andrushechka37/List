@@ -4,27 +4,32 @@
 #include "dump_list.h"
 #include <math.h>
 
+
+
 static int get_vacant_cell (doubly_linked_list * list);
 static void add_vacant_cell(doubly_linked_list * list, int position);
 
 bool verify_list(doubly_linked_list * list) {
     bool error = 0;
+
+    if (list->data == NULL) {  
+        printf("data zero ptr");
+        error = 1;
+        return 1;     
+    } 
+
     for (int i = 0; i < count; i++) {
         if (list->data[list->data[i].prev].next != i && list->data[i].prev != free_elem) {
             printf("%d %d", list->data[list->data[i].prev].next, i);
             printf("next of previous elem is %d element is %d", list->data[list->data[i].prev].next, i);
-            error = 1; // TODO: true?
+            return 1; 
         }
         if (list->data[list->data[i].next].prev != i && list->data[i].prev != free_elem) {
             printf("previous of next element is %d element is %d", list->data[list->data[i].next].prev, i);
-            error = 1; // TODO: true?
+            return 1; 
         }
     }
 
-    if(list->data == NULL) {  
-        printf("data zero ptr");
-        error = 1;        // TODO: too much trailing ^ spaces, they annoy me
-    } 
 
     if(list->free_element_head < 0) { 
         printf("free below zero");
@@ -36,9 +41,14 @@ bool verify_list(doubly_linked_list * list) {
         error = 1;       
     } 
 
+    if (list->data[list->free_element_head].next == 0) {
+        printf("no more free space");
+        error = 1;
+    }
+
     if (error == 1) {
-        draw_grapth(list, "error, check console output");
-        exit(-1); // TODO: ????????????????????????????????????????????????????????????????????????
+        draw_graph(list, "error, check console output");
+        return 1;
     }
 
     return 0;
@@ -92,14 +102,9 @@ int list_dtor(doubly_linked_list * list) {
 }
 
 static int get_vacant_cell(doubly_linked_list * list) {
-    if (list->data[list->free_element_head].next != 0) {
-        int pos = list->free_element_head;
-        list->free_element_head = list->data[list->free_element_head].next; 
-        return pos;
-    } else {
-        printf("no more free space");
-        exit(-1); // TODO: ?????????????????????????????????????????
-    }
+    int pos = list->free_element_head;
+    list->free_element_head = list->data[list->free_element_head].next; 
+    return pos;
 }
 
 static void add_vacant_cell(doubly_linked_list * list, int position) {
@@ -201,8 +206,6 @@ void list_linearization(doubly_linked_list * list) {
     int count = 1;
     for (int i = 0; i < 13; i++) {  // TODO: 10????????????????
         if (list->data[i].next != count) {
-            //draw_grapth(list, "list");
-            printf("%d\n\n\n\n", count);
             list_swap(list, count, list->data[i].next);
         }
         count++;

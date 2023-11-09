@@ -18,12 +18,12 @@ int main(void) {
     list_insert_after(&list, 1, 6);
     list_insert_after(&list, 2, 7);
     list_insert_after(&list, 3, 58);
-    draw_grapth(&list, "list");
+    draw_graph(&list, "list");
 
     list_swap(&list, 6, 2);
-    draw_grapth(&list, "swap");
+    draw_graph(&list, "swap");
     list_swap(&list, 10, 1);
-    draw_grapth(&list, "funny swap");
+    draw_graph(&list, "funny swap");
 
 
     list_elem_del(&list, 3);
@@ -34,16 +34,15 @@ int main(void) {
 
     // list_elem_del(&list, 1);
 
-    draw_grapth(&list, "delete first");
+    draw_graph(&list, "delete first");
 
     list_linearization(&list);
-    draw_grapth(&list, "linearization");
+    draw_graph(&list, "linearization");
     
     dump_list(&list, pfile);
     //verify_list(&list);
-    grapth_presentation();
+    //graph_presentation();
 
     list_dtor(&list);
 
 }
-
