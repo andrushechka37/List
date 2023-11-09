@@ -6,7 +6,7 @@
 
 
 
-static int get_vacant_cell (doubly_linked_list * list);
+static int  get_vacant_cell(doubly_linked_list * list);
 static void add_vacant_cell(doubly_linked_list * list, int position);
 
 bool verify_list(doubly_linked_list * list) {
@@ -18,13 +18,13 @@ bool verify_list(doubly_linked_list * list) {
         return 1;     
     } 
 
-    for (int i = 0; i < count; i++) {
-        if (list->data[list->data[i].prev].next != i && list->data[i].prev != free_elem) {
+    for (int i = 0; i < list_capacity; i++) {
+        if (list->data[list->data[i].prev].next != i && list->data[i].prev != free_elem_marker) {
             printf("%d %d", list->data[list->data[i].prev].next, i);
             printf("next of previous elem is %d element is %d", list->data[list->data[i].prev].next, i);
             return 1; 
         }
-        if (list->data[list->data[i].next].prev != i && list->data[i].prev != free_elem) {
+        if (list->data[list->data[i].next].prev != i && list->data[i].prev != free_elem_marker) {
             printf("previous of next element is %d element is %d", list->data[list->data[i].next].prev, i);
             return 1; 
         }
@@ -36,7 +36,7 @@ bool verify_list(doubly_linked_list * list) {
         error = 1;       
     } 
 
-    if(list->free_element_head > count) { 
+    if(list->free_element_head > list_capacity) { 
         printf("free is out of range    %d    \n", list->free_element_head);
         error = 1;       
     } 
@@ -47,7 +47,7 @@ bool verify_list(doubly_linked_list * list) {
     }
 
     if (error == 1) {
-        draw_graph(list, "error, check console output");
+        list_visualize(list, "error, check console output");
         return 1;
     }
 
@@ -70,8 +70,9 @@ int list_insert_after(doubly_linked_list * list, int position, int value) {
 
 }
 
-int list_elem_del(doubly_linked_list * list, int position) {
-    // TODO: check if element is free
+int list_delete_elem(doubly_linked_list * list, int position) {  // i was thinking of naming style like list_insert_after
+    // TODO: check if element is free - done in verificator      // list_delete_chosen sounds bad? or list_delete_current?
+                                                                 // but current bad i think.             
     list->data[list->data[position].prev].next = list->data[position].next; // next of prev elem = next of cur elem
     list->data[list->data[position].next].prev = list->data[position].prev; // prev of next elem = prev of cur elem
 
@@ -81,9 +82,9 @@ int list_elem_del(doubly_linked_list * list, int position) {
 }
 
 int list_ctor(doubly_linked_list * list) {
-    list->data = (list_element *) calloc(count, sizeof(list_element));
-    for (int i = 1; i < count; i++) {
-        list->data[i].prev = free_elem;
+    list->data = (list_element *) calloc(list_capacity, sizeof(list_element));
+    for (int i = 1; i < list_capacity; i++) {
+        list->data[i].prev = free_elem_marker;
         list->data[i].next = i + 1;
     }
 
@@ -92,7 +93,7 @@ int list_ctor(doubly_linked_list * list) {
 }
 
 int list_dtor(doubly_linked_list * list) {
-    for(int i = 0; i < count; i++) {
+    for(int i = 0; i < list_capacity; i++) {
         list->data[i].prev  = 0; 
         list->data[i].value = 0; 
         list->data[i].next  = 0; 
@@ -102,25 +103,25 @@ int list_dtor(doubly_linked_list * list) {
 }
 
 static int get_vacant_cell(doubly_linked_list * list) {
-    int pos = list->free_element_head;
+    int position = list->free_element_head;
     list->free_element_head = list->data[list->free_element_head].next; 
-    return pos;
+    return position;
 }
 
 static void add_vacant_cell(doubly_linked_list * list, int position) {
-    list->data[position].prev = free_elem;
+    list->data[position].prev = free_elem_marker;
     list->data[position].value = 0;
     list->data[position].next  = list->free_element_head;
     list->free_element_head = position;
 }
 
-// TODO: I'm gonna pretend I didn't see this
+// TODO: I'm gonna pretend I didn't see this - thank you
 int list_swap(doubly_linked_list * list, int position1, int position2) {  // in work
 
-    if((list->data[position1].prev == free_elem && list->data[position2].prev == free_elem) || position1 == 0 || position2 == 0) {
+    if((list->data[position1].prev == free_elem_marker && list->data[position2].prev == free_elem_marker) || position1 == 0 || position2 == 0) {
         return 0;
     }
-    if (list->data[position1].prev == free_elem) {
+    if (list->data[position1].prev == free_elem_marker) {
         list->data[list->data[position2].prev].next = position1;
         list->data[list->data[position2].next].prev = position1;
 
@@ -131,7 +132,7 @@ int list_swap(doubly_linked_list * list, int position1, int position2) {  // in 
 
         list->data[position1].next = list->data[position2].next;
 
-        list->data[position2].prev = free_elem;
+        list->data[position2].prev = free_elem_marker;
         list->data[position2].value = 0;
         list->data[position2].next = k;
 
@@ -141,7 +142,7 @@ int list_swap(doubly_linked_list * list, int position1, int position2) {  // in 
         return 0;
     }
 
-    if (list->data[position2].prev == free_elem) {
+    if (list->data[position2].prev == free_elem_marker) {
         list->data[list->data[position1].prev].next = position2;
         list->data[list->data[position1].next].prev = position2;
 
@@ -152,7 +153,7 @@ int list_swap(doubly_linked_list * list, int position1, int position2) {  // in 
 
         list->data[position2].next = list->data[position1].next;
 
-        list->data[position1].prev = free_elem;
+        list->data[position1].prev = free_elem_marker;
         list->data[position1].value = 0;
         list->data[position1].next = k;
 
@@ -186,7 +187,6 @@ int list_swap(doubly_linked_list * list, int position1, int position2) {  // in 
         } else {
             list->data[position1].next = position2;  // 2 1
             list->data[position1].prev = prev_elem2;
-            printf("fjn");
             list->data[position2].prev = position1;
             list->data[position2].next = next_elem1;
         }
@@ -203,11 +203,11 @@ int list_swap(doubly_linked_list * list, int position1, int position2) {  // in 
 }
 
 void list_linearization(doubly_linked_list * list) {
-    int count = 1;
-    for (int i = 0; i < 13; i++) {  // TODO: 10????????????????
-        if (list->data[i].next != count) {
-            list_swap(list, count, list->data[i].next);
+    int physical_address = 1;
+    for (int i = 0; i < list_capacity; i++) {          // TODO: 10????????????????---fixed, it was temporary test
+        if (list->data[i].next != physical_address) {   // also "count" renamed and now it is physical_address
+            list_swap(list, physical_address, list->data[i].next);
         }
-        count++;
+        physical_address++;
     }
 }

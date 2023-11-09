@@ -3,9 +3,6 @@
 #include <string.h>
 #include "list.h"
 #include "dump_list.h"
-// count gr
-// grapth
-
 
 
 int main(void) {
@@ -18,30 +15,30 @@ int main(void) {
     list_insert_after(&list, 1, 6);
     list_insert_after(&list, 2, 7);
     list_insert_after(&list, 3, 58);
-    draw_graph(&list, "list");
+    list_visualize(&list, "list");
 
     list_swap(&list, 6, 2);
-    draw_graph(&list, "swap");
+    list_visualize(&list, "swap");
     list_swap(&list, 10, 1);
-    draw_graph(&list, "funny swap");
+    list_visualize(&list, "funny swap");
 
 
-    list_elem_del(&list, 3);
+    list_delete_elem(&list, 3);
 
 
     list_insert_after(&list, 4, 73);
 
 
-    // list_elem_del(&list, 1);
+    // list_delete_elem(&list, 1);
 
-    draw_graph(&list, "delete first");
+    list_visualize(&list, "delete first");
 
     list_linearization(&list);
-    draw_graph(&list, "linearization");
+    list_visualize(&list, "linearization");
     
-    dump_list(&list, pfile);
+    dump_list_txt(&list, pfile);
     //verify_list(&list);
-    //graph_presentation();
+    unite_visualizations();
 
     list_dtor(&list);
 

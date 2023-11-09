@@ -1,13 +1,19 @@
 #pragma once
 
+
+// i am thinking of a better name for this macros, but now it is "verify"  :(
 #define verify(list)               \
 if (verify_list(&list) != 0) {     \
     return -1;                     \
 }
 
 
-const int count = 13; // this const uses not only in tests think more!!!!!!!!!!!!!
-const int free_elem   =  -1;
+const int list_capacity = 13; // I was thinking about removing this constant from this header, but now
+                              // it is using in all cpps so i am not sure, if it is should be removed or not
+                              // this question is in work!
+
+
+const int free_elem_marker =  -1; // i am thinking of better name, but current is not as terrible as previous
 
 struct list_element {
     int value; // TODO: can I change list element type? What if I want to? - NO :(
@@ -19,6 +25,8 @@ struct doubly_linked_list {
     list_element * data;
     int free_element_head;
 };
+
+// DO NOT READ DOCUMENTATION, IT IS AWFUL, I KNOW, IT IS IN PROGRESS
 
 /// @brief Verificator of list
 /// @param list struct 
@@ -34,17 +42,17 @@ int list_insert_after(doubly_linked_list * list, int position, int value);
 /// @brief delete element of list
 /// @param list list struct
 /// @param position position of deleted element
-int list_elem_del(doubly_linked_list * list, int position);
+int list_delete_elem(doubly_linked_list * list, int position);
 
 
-/// @brief swaps two argument in given posotions
+/// @brief swaps two argument in given positions
 /// @param list list struct
 /// @param position1 first position
 /// @param position2 second position
-/// @note there are a lot of ifs, should be rewrited
+/// @note there are a lot of ifs, should be rewritten
 int list_swap(doubly_linked_list * list, int position1, int position2);
 
-/// @brief leads to correspondence of physical and logical adresses of list elements
+/// @brief leads to correspondence of physical and logical addresses of list elements
 /// @param list list struct
 void list_linearization(doubly_linked_list * list); 
 
@@ -56,7 +64,7 @@ int list_dtor(doubly_linked_list * list);
 
 
 
-
+// list of TODOs:
 //(optional)
 
 // delete ~time~ temporary files 
@@ -66,20 +74,20 @@ int list_dtor(doubly_linked_list * list);
 // aspell
 // list tests
 
-// reallock REALLOC no leviosa-
+// realloc REALLOC no leviosa-
 
 
 // commands
 
 // list insert after
-// revove exit 
+// remove exit 
 // linearization
-// логические и физичиёеские адреса BLAH BLAH BLAH use UTF-8
+// logical and physical addresses
 // pop back pop front swap 
-// необязательные дапмы
+// optional dumps
 
 // git size of list
 // clear TODO: where
 // resize
-// swap(only pointers
+// swap(only pointers)
 // reverse

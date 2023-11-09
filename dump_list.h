@@ -4,12 +4,12 @@
 void list_cell_open(FILE * pfile);
 void list_cell_close(FILE * pfile);
 
-void dump_list(doubly_linked_list * list, FILE * pfile);
-
+void dump_list_txt(doubly_linked_list * list, FILE * pfile); // func doesn't refer directly to the list
+                                                             // so list is on the second position. Am i right?
 void create_new_graph(void);
-void draw_graph(doubly_linked_list * list, const char * func);
+void list_visualize(doubly_linked_list * list, const char * comment);
 
-void graph_presentation(void);
+void unite_visualizations(void);
 
-inline char count_gr[] = "1";
+inline int graph_number = 1;
 const int command_len = 1000;
