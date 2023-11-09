@@ -47,4 +47,4 @@ If you found an issue or would like to submit an improvement to this project, pl
 
 
 # Donation
-### :exclamation: :exclamation: send me money on my phone number :exclamation: :exclamation:
+### :exclamation: :exclamation: :exclamation: send me money on my phone number :exclamation: :exclamation: :exclamation:
