@@ -9,7 +9,7 @@ void unite_visualizations(void) {
     char command[command_len] = "open /opt/local/bin/sxiv ";
     char file[] = " /Users/anzhiday/Documents/list/graphs/graph";
     for (int i = 1; i < graph_number; i++) {
-        char number[6] = "";   // magic number? YES
+        char number[6] = "";   // magic number? fix
         snprintf(number, 6,  "%d.png", i);
         strcat(command, file);
         strcat(command, number);
@@ -165,3 +165,19 @@ void list_visualize(doubly_linked_list * list, const char * comment) {
     create_new_graph();   
 }
 
+void html_dump(void) {
+    FILE * pfile = fopen("log.html", "w"); // 
+
+    fprintf(pfile, "<hr/>\n");
+    fprintf(pfile, "<head>\n");
+    fprintf(pfile, "\t<title>90</title>\n");
+    fprintf(pfile, "</head>\n");
+    for (int i = 1; i < graph_number; i++) {
+        fprintf(pfile, "<img src = \"/Users/anzhiday/Documents/list/graphs/graph");
+        fprintf(pfile, "%d", i);
+        fprintf(pfile, ".png\">\n");
+        fprintf(pfile,"<br><br><br><br>\n");
+    }
+    fclose(pfile);
+    
+}

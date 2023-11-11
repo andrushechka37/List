@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "list.h"
 #include "dump_list.h"
 #include <math.h>
+
 
 
 
@@ -57,6 +59,7 @@ bool verify_list(doubly_linked_list * list) {
 
 
 int list_insert_after(doubly_linked_list * list, int position, int value) {
+
     int cur = get_vacant_cell(list);
 
     list->data[list->data[position].next].prev = cur;      // prev of the next elem is current
@@ -66,6 +69,10 @@ int list_insert_after(doubly_linked_list * list, int position, int value) {
     list->data[cur].next = list->data[position].next;
 
     list->data[position].next = cur;
+
+    char comment[comment_len] = "";
+    snprintf(comment, comment_len,  "insert after %d position, inserted value is %d", position, value);
+    list_visualize(list, comment);
     return 0;         // prev elem next is current
 
 }
@@ -79,6 +86,9 @@ int list_delete_elem(doubly_linked_list * list, int position) {  // i was thinki
     add_vacant_cell(list, position);
     return 0;
 
+}
+int get_head(doubly_linked_list * list) {
+    return list->data[0].next;
 }
 
 int list_ctor(doubly_linked_list * list) {

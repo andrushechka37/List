@@ -11,5 +11,8 @@ void list_visualize(doubly_linked_list * list, const char * comment);
 
 void unite_visualizations(void);
 
+void html_dump(void);
+
 inline int graph_number = 1;
 const int command_len = 1000;
+const int comment_len = 100;
